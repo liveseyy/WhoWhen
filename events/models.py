@@ -1,4 +1,6 @@
 from django.db import models
+from django.shortcuts import reverse
+from django.utils.crypto import get_random_string
 
 
 class Event(models.Model):
@@ -8,9 +10,17 @@ class Event(models.Model):
     date_start = models.DateField()
     date_end = models.DateField()
     date_create = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return f'{self.title} - {self.date_create.day}.{self.date_create.month}.{self.date_create.year}'
+
+    def save(self, *args, **kwargs):
+        self.slug = get_random_string(length=15)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('event_detail', args=[self.slug])
 
 
 class Member(models.Model):
