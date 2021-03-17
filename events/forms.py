@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ValidationError
-from .models import Event
+from .models import Event, Member
 
 
 class EventForm(forms.ModelForm):
@@ -22,3 +22,11 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['title', 'description', 'date_start', 'date_end']
+
+
+class MemberForm(forms.ModelForm):
+    name = forms.CharField(label='Имя')
+
+    class Meta:
+        model = Member
+        fields = ['name']

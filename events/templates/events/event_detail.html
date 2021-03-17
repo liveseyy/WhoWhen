@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ event.title }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ event.title }}</h1>
+    {% if event.description %}
+        <p>{{ event.description }}</p>
+    {% endif %}
+    <p>{{ event.date_start }} - {{ event.date_end }}</p>
+    <form action="" method="POST">
+        {{ member_form.as_p }}
+
+        <div class="dates">
+            {% for year, months_with_days in dates_between.items %}
+                <h4>{{ year }}</h4>
+
+                    {% for month, days in months_with_days.items %}
+                        <h5>{{ month }}</h5>
+                            {% for day in days %}
+                                {{ day }}, 
+                            {% endfor %}
+                    {% endfor %}
+
+            {% endfor %}
+        </div>
+
+        {% csrf_token %}
+        <input type="submit" value="Отправить">
+    </form>
+{% endblock %}
