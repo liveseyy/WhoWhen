@@ -1,14 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}
+    Create event
+{% endblock %}
+
+{% block content %}
+    <h1>Создать мероприятие</h1>
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <input type="submit" value="Создать">
+        <input type="submit" value="Create">
     </form>
-</body>
-</html>
+{% endblock %}
+
+{% block domready %}
+  $(function () {
+    var $startDate = $('#id_date_start');
+    var $endDate = $('#id_date_end');
+
+    $startDate.datepicker({
+      language: 'ru-RU',
+      format:'dd.mm.yyyy',
+    });
+    $endDate.datepicker({
+        language: 'ru-RU',
+        format:'dd.mm.yyyy',
+        startDate: $startDate.datepicker('getDate'),
+      });
+    
+    $startDate.on('change', function () {
+      $endDate.datepicker('setStartDate', $startDate.datepicker('getDate'));
+    });
+  });
+{% endblock %}

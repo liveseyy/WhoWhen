@@ -6,7 +6,7 @@ from django.utils.crypto import get_random_string
 class Event(models.Model):
     """The nearest event that people are going to"""
     title = models.CharField(max_length=200)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True)
     date_start = models.DateField()
     date_end = models.DateField()
     date_create = models.DateTimeField(auto_now_add=True)

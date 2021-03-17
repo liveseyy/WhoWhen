@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, DetailView
 from .models import Event
+from .forms import EventForm
 
 
 class EventCreate(CreateView):
     model = Event
-    fields = ['title', 'description', 'date_start', 'date_end']
+    form_class = EventForm
 
 
 class EventDetail(DetailView):
