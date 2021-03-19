@@ -1,18 +1,31 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.views import View
 from django.views.generic import CreateView, DetailView
-from .models import Event
+from .models import Event, Member
 from .forms import EventForm, MemberForm
 from .services import get_days_between_dates
 
 
-class EventCreate(CreateView):
+class EventCreateView(CreateView):
     model = Event
     form_class = EventForm
 
 
-class EventDetail(DetailView):
+class EventDetailView(DetailView):
     model = Event
     context_object_name = 'event'
+
+    def post(self, request, slug):
+        data = request.POST
+        form = MemberForm(data=data)
+        event = self.get_object()
+        if form.is_valid():
+            member = form.save(commit=False)
+            member.event = event
+            member.date_when_can = data.getlist('dates')
+            member.save()
+        return redirect(event.get_absolute_url())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

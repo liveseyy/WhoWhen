@@ -13,7 +13,8 @@ class Event(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return f'{self.title} - {self.date_create.day}.{self.date_create.month}.{self.date_create.year}'
+        return f'{self.title}({self.date_start.day}.{self.date_start.month}.{self.date_start.year}' \
+               f' - {self.date_end.day}.{self.date_end.month}.{self.date_end.year})'
 
     def save(self, *args, **kwargs):
         self.slug = get_random_string(length=15)
@@ -30,4 +31,4 @@ class Member(models.Model):
     date_when_can = models.JSONField()
 
     def __str__(self):
-        return f'{self.name} go on {self.event.title}'
+        return f'"{self.name}" go on {self.event.title}'

@@ -1,20 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
   Создать мероприятие
 {% endblock %}
 
 {% block content %}
+
     <h1>Создать мероприятие</h1>
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
         <input type="submit" value="Создать">
     </form>
+
 {% endblock %}
 
 {% block domready %}
-  $(function () {
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      
+  <!-- Fengyuan Chen's Datepicker -->
+  <link  href="{% static 'datepicker/dist/datepicker.min.css' %}" rel="stylesheet">
+  <script src="{% static 'datepicker/dist/datepicker.min.js' %}"></script>
+  <script src="{% static 'datepicker/i18n/datepicker.ru-RU.js' %}"></script>
+
+  <script>
+    $(function () {
     var $startDate = $('#id_date_start');
     var $endDate = $('#id_date_end');
 
@@ -32,4 +45,5 @@
       $endDate.datepicker('setStartDate', $startDate.datepicker('getDate'));
     });
   });
+  </script>
 {% endblock %}
