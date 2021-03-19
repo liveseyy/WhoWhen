@@ -13,8 +13,7 @@ class Event(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return f'{self.title}({self.date_start.day}.{self.date_start.month}.{self.date_start.year}' \
-               f' - {self.date_end.day}.{self.date_end.month}.{self.date_end.year})'
+        return f'{self.title}({self.date_start} до {self.date_end})'
 
     def save(self, *args, **kwargs):
         self.slug = get_random_string(length=15)
@@ -28,7 +27,15 @@ class Member(models.Model):
     """Member of event"""
     name = models.CharField(max_length=100)
     event = models.ForeignKey(Event, related_name="members", on_delete=models.CASCADE)
-    date_when_can = models.JSONField()
 
     def __str__(self):
         return f'"{self.name}" go on {self.event.title}'
+
+
+class MemberDates(models.Model):
+    """Dates when member can go"""
+    member = models.ForeignKey(Member, related_name='dates', on_delete=models.CASCADE)
+    date = models.DateField()
+
+    def __str__(self):
+        return f'{self.member.name} - {self.date}'

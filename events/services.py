@@ -6,6 +6,12 @@ en_to_ru_months = {
     'September': 'Сентябрь', 'October': 'Октябрь', 'November': 'Ноябрь', 'December': 'Декабрь'
 }
 
+str_to_int_months = {
+    'Январь': 1, 'Февраль': 2, 'Март': 3, 'Апрель': 4,
+    'Май': 5, 'Июнь': 6, 'Июль': 7, 'Август': 8,
+    'Сентябрь': 9, 'Октябрь': 10, 'Ноябрь': 11, 'Декабрь': 12
+}
+
 
 def get_days_between_dates(event):
     """return dictionary like {'year': {
