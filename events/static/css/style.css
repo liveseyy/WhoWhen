@@ -1,0 +1,35 @@
+label {
+    position:relative;  
+    cursor:pointer;
+    
+}
+
+label [type="checkbox"] {
+    display:none;
+    border: 1px solid #000;
+}
+
+[type="checkbox"] + span {
+    display:inline-block;
+    padding: 15px;
+    width: 25px;
+    text-align: center;
+    border: 1px solid #000;
+}
+
+:checked + span {
+    background:#0f0;
+    display:inline-block;    
+}
+
+[type="checkbox"][disabled] + span {
+    background:#f00;  
+}
+
+.unselectable {
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}

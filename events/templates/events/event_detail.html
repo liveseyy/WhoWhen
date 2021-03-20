@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     {{ event.title }}
@@ -30,31 +31,27 @@
     <form method="POST">
         {{ member_form.as_p }}
 
-        <div>
+        <div class="dates unselectable">
             {% for year, months_with_days in dates_between.items %}
                 <h4>{{ year }}</h4>
                     {% for month, days in months_with_days.items %}
                         <h5>{{ month }}</h5>
                             {% for day in days %}
-                                {% if forloop.last %}
-                                    <span>
-                                        <input type="checkbox" name="dates" id="{{ year }}-{{ month }}-{{ day }}"
+                                <label>
+                                    <input type="checkbox" name="dates" id="{{ year }}-{{ month }}-{{ day }}"
                                         value="{{ year }}.{{ month }}.{{ day }}">
-                                        <label for="{{ year }}-{{ month }}-{{ day }}">{{ day }}</label>
-                                    </span>
-                                {% else %}
-                                    <span>
-                                        <input type="checkbox" name="dates" id="{{ year }}-{{ month }}-{{ day }}"
-                                        value="{{ year }}.{{ month }}.{{ day }}">
-                                        <label for="{{ year }}-{{ month }}-{{ day }}">{{ day }}</label>
-                                    </span>
-                                {% endif%}
+                                    <span>{{ day }}</span>
+                                </label>
                             {% endfor %}
                     {% endfor %}
             {% endfor %}
         </div>
 
         {% csrf_token %}
+        <div>
+            <button type="button" id="btnSelectAll" onclick="selectAll()">Выделить все</button>
+            <button type="button" id="btnResetAll" onclick="resetAll()">Сбросить</button>
+        </div>
         <button type="submit">Отправить</button>
     </form>
 
@@ -62,20 +59,48 @@
 
 {% block domready %}
     <script>
-        function checkActiveCheckBoxes() {
-            button.disabled = true;
+        function selectAll() {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            checkActiveCheckboxes();
+        };
+        function resetAll() {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            checkActiveCheckboxes();
+        };
+        function checkActiveCheckboxes() {
+            buttonSend.disabled = true;
             checkboxes.forEach(checkbox => {
                 if (checkbox.checked)
-                    button.disabled = false;
+                buttonSend.disabled = false;
             });
-        }
+        };
+
+        function selectOrUnselectCheckboxes(e) {
+            if ((e.target.tagName === 'SPAN') && e.buttons) {
+                e.target.previousElementSibling.checked = !e.target.previousElementSibling.checked;
+                checkActiveCheckboxes();
+            }
+        };
 
         let checkboxes = document.querySelectorAll('input[type=checkbox]');
-        let button = document.querySelector('button');
+        let labels = document.querySelectorAll('label');
+        let buttonSend = document.querySelector('button[type="submit"]');
+        let btnSelectAll = document.querySelector('#btnSelectAll');
+        let btnResetAll = document.querySelector('#btnResetAll');
         
-        checkActiveCheckBoxes();
+        checkActiveCheckboxes();
 
-        checkboxes.forEach(checkbox => checkbox.addEventListener('change', checkActiveCheckBoxes));
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', checkActiveCheckboxes);
+        });
+        labels.forEach(label => {
+            label.addEventListener('mouseover', selectOrUnselectCheckboxes);
+        });
+
+        btnSelectAll
     </script>
 {% endblock %}
-
