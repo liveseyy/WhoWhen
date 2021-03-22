@@ -13,7 +13,7 @@ str_to_int_months = {
 }
 
 
-def get_days_between_dates(event):
+def get_days_between_dates_json(event):
     """return dictionary like {'year': {
                                 'month1': [days],
                                 'month2': [days],
@@ -34,5 +34,21 @@ def get_days_between_dates(event):
                 dates_between[year][month] = [day]
         else:
             dates_between[year] = {month: [day]}
+        date_start = date_start + timedelta(days=1)
+    return dates_between
+
+
+def get_days_between_dates_datetime(event):
+    """return list like {'year': {
+                                'month1': [days],
+                                'month2': [days],
+                                ...
+                            }}
+    """
+    date_delta = event.date_end - event.date_start
+    dates_between = []
+    date_start = event.date_start
+    for i in range(date_delta.days + 1):
+        dates_between.append(date_start)
         date_start = date_start + timedelta(days=1)
     return dates_between

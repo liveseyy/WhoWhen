@@ -1,9 +1,10 @@
 import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import CreateView, DetailView
-from .models import Event, Member, MemberDates
+from .models import Event, MemberDates
 from .forms import EventForm, MemberForm
-from .services import get_days_between_dates, str_to_int_months
+from .services.event_dates import get_days_between_dates_json, get_days_between_dates_datetime, str_to_int_months
+from .services.event_calendar import get_calendar_event
 
 
 class EventCreateView(CreateView):
@@ -36,6 +37,12 @@ class EventDetailView(DetailView):
         context['member_form'] = MemberForm()
 
         event = context['event']
-        dates_between = get_days_between_dates(event)
-        context['dates_between'] = dates_between
+
+        dates_between_event_json = get_days_between_dates_json(event)
+        context['dates_between'] = dates_between_event_json
+
+        event_members = event.members.all()
+        dates_between_event = get_days_between_dates_datetime(event)
+        context['graphic'] = get_calendar_event(event_members, dates_between_event)
+        # context['days_when_lot_ready'] = get_days_when_lot_ready(event_members, dates_between_event)
         return context

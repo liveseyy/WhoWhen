@@ -24,7 +24,7 @@ label [type="checkbox"] {
 }
 
 :checked + span {
-    background:rgb(80, 184, 61);
+    background: rgb(58, 158, 87);
     border: 0.5px solid rgb(161, 161, 161);
     color: rgb(255, 255, 255);
     display:inline-block;    
