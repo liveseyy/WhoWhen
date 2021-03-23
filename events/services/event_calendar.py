@@ -17,12 +17,11 @@ def get_event_calendar(event: Event):
     event_members = event.members.all()
     member_dates = list(map(lambda member: member.dates.values_list('date', flat=True), event_members))
 
-    count_members_on_date = []
-
     member_dates = merge_nested_list(member_dates)
 
     dates_between_event = get_days_between_dates_datetime(event)
 
+    count_members_on_date = []
     for date in dates_between_event:
         count_members_on_date.append(member_dates.count(date))
 

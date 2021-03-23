@@ -23,7 +23,19 @@
             </div>
         {% endwith %}
         <img src="data:image/png;base64,{{ event_calendar|safe }}" alt="Календарь">
-    {% else %}
+        <p>Можно идти:</p>
+            {% for date in days_when_lot_ready %}
+                {% for day, members in date.items %}
+                    <p>
+                        {{ day|date:'d M Y' }} ({{ members|length }}):
+
+                        {% for member in members %}
+                            <span>{{ member }}, </span>
+                        {% endfor %}
+                    </p>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
         <p>Пока никто не отметился</p>
     {% endif %}
 

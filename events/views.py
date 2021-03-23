@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, DetailView
 from .models import Event, MemberDates
 from .forms import EventForm, MemberForm
-from .services.event_dates import get_days_between_dates_json, str_to_int_months
+from .services.event_dates import get_days_between_dates_json, str_to_int_months, get_most_selected_dates
 from .services.event_calendar import get_event_calendar
 
 
@@ -42,5 +42,6 @@ class EventDetailView(DetailView):
         context['dates_between'] = dates_between_event_json
 
         context['event_calendar'] = get_event_calendar(event)
-        # context['days_when_lot_ready'] = get_days_when_lot_ready(event_members, dates_between_event)
+
+        context['days_when_lot_ready'] = get_most_selected_dates(event)
         return context
