@@ -22,7 +22,7 @@
             {% endfor %}
             </div>
         {% endwith %}
-        <img src="data:image/png;base64,{{ graphic|safe }}" alt="Календарь PDF">
+        <img src="data:image/png;base64,{{ event_calendar|safe }}" alt="Календарь">
     {% else %}
         <p>Пока никто не отметился</p>
     {% endif %}

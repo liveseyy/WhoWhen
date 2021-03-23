@@ -1,3 +1,5 @@
+from ..models import Event
+from .event_dates import get_days_between_dates_datetime
 import base64
 from io import BytesIO
 from functools import reduce
@@ -5,14 +7,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-mergelist = lambda s: reduce(lambda d, el: d.extend(el) or d, s, [])
+merge_nested_list = lambda s: reduce(lambda d, el: d.extend(el) or d, s, [])
 
 
-def get_calendar_event(event_members, dates_between_event):
+def get_event_calendar(event: Event):
+    """
+        return colormap-calendar of event with counting the number of people in each day
+    """
+    event_members = event.members.all()
     member_dates = list(map(lambda member: member.dates.values_list('date', flat=True), event_members))
+
     count_members_on_date = []
 
-    member_dates = mergelist(member_dates)
+    member_dates = merge_nested_list(member_dates)
+
+    dates_between_event = get_days_between_dates_datetime(event)
 
     for date in dates_between_event:
         count_members_on_date.append(member_dates.count(date))

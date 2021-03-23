@@ -1,4 +1,5 @@
 from datetime import timedelta
+from ..models import Event
 
 en_to_ru_months = {
     'January': 'Январь', 'February': 'Февраль', 'March': 'Март', 'April': 'Апрель',
@@ -13,12 +14,14 @@ str_to_int_months = {
 }
 
 
-def get_days_between_dates_json(event):
-    """return dictionary like {'year': {
+def get_days_between_dates_json(event: Event):
+    """return dictionary of event dates like
+                            {'year': {
                                 'month1': [days],
                                 'month2': [days],
                                 ...
-                            }}
+                                }
+                            }
     """
     date_delta = event.date_end - event.date_start
     dates_between = dict()
@@ -38,13 +41,11 @@ def get_days_between_dates_json(event):
     return dates_between
 
 
-def get_days_between_dates_datetime(event):
-    """return list like {'year': {
-                                'month1': [days],
-                                'month2': [days],
-                                ...
-                            }}
+def get_days_between_dates_datetime(event: Event):
     """
+        return a list with objects datetime.date of event
+    """
+
     date_delta = event.date_end - event.date_start
     dates_between = []
     date_start = event.date_start
