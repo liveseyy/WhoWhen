@@ -91,9 +91,10 @@
             });
         };
         function selectOrUnselectCheckbox(e) {
-            e.stopPropagation();
-            e.target.previousElementSibling.checked = !e.target.previousElementSibling.checked;
-            checkActiveCheckboxes();
+            if (e.buttons){
+                e.target.previousElementSibling.checked = !e.target.previousElementSibling.checked;
+                checkActiveCheckboxes();
+            };
             
         };
         function selectOrUnselectCheckboxes(e) {
@@ -115,9 +116,10 @@
             checkbox.addEventListener('change', checkActiveCheckboxes);
         });
         labels.forEach(label => {
-            label.addEventListener('mouseover', selectOrUnselectCheckboxes);
+            label.addEventListener('pointerover', selectOrUnselectCheckboxes);
             label.addEventListener('mousedown', selectOrUnselectCheckbox);
             label.addEventListener('click', (e) => {e.preventDefault();});
         });
+        
     </script>
 {% endblock %}

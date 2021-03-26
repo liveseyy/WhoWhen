@@ -60,7 +60,7 @@ def get_most_selected_dates(event: Event):
     """
          returns a list of lists with the dates with the largest number of members,
           and the members themselves
-         :return [[date, *members], ...]
+         :return [[date, *members], ...] or None
     """
     event_members = event.members.all()
     if event_members:
