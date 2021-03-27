@@ -25,11 +25,11 @@ def get_event_calendar(event: Event):
     for date in dates_between_event:
         count_members_on_date.append(member_dates.count(date))
 
-    fig, ax = plt.subplots(figsize=(5, 5))
+    fig, ax = plt.subplots(figsize=(9, 9))
     calendar_heatmap(ax, dates_between_event, count_members_on_date)
 
     buffer = BytesIO()
-    plt.savefig(buffer, format='png')
+    plt.savefig(buffer, format='png', transparent=True)
     buffer.seek(0)
     image_png = buffer.getvalue()
     buffer.close()
@@ -52,7 +52,7 @@ def calendar_array(dates, data):
 
 def calendar_heatmap(ax, dates, data):
     i, j, calendar = calendar_array(dates, data)
-    im = ax.imshow(calendar, interpolation='none', cmap=plt.get_cmap('Greens', len(set(data))))
+    im = ax.imshow(calendar, interpolation='none', cmap=plt.get_cmap('summer', len(set(data))))
     label_days(ax, dates, i, j, calendar)
     label_months(ax, dates, i, j, calendar)
     cbar = ax.figure.colorbar(im)

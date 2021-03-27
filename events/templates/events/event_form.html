@@ -7,12 +7,34 @@
 
 {% block content %}
 
-    <h1>Создать мероприятие</h1>
-    <form method="post">
-        {{ form.as_p }}
+    <div class="content__item">
+      <div class="content__title">
+        <h2>Создать мероприятие</h2>
+      </div>
+    </div>
+    <div class="content__item">
+      <form method="post" class="content__form">  
+        {% for field in form %}
+          <div class="form-group">
+            <div class="form__label">
+              {{ field.label_tag }}
+            </div>
+            <div class="form__field">
+              {{ field }}
+            </div>
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <div class="form__error">
+                  {{ error }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
         {% csrf_token %}
-        <input type="submit" value="Создать">
-    </form>
+        <input type="submit" value="Создать" class="form__button">
+      </form>
+    </div>
 
 {% endblock %}
 

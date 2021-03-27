@@ -1,3 +1,91 @@
+@font-face{
+    font-family: 'Gardens CM';
+    src: url('../fonts/Gardens-CM-Regular/Gardens-CM-Regular.ttf');
+}
+@font-face{
+    font-family: 'Fredoka One';
+    src: url('../fonts/FredokaOne-Regular/FredokaOne-Regular.ttf');
+}
+body{
+    padding-top: 15px;
+    font-family: 'Gardens CM';
+    font-size: 30px;
+    min-height: 100vh;
+    background: linear-gradient(to right top, #6fd393, #aceb7a);
+    
+}
+@media (max-width:426px){
+    body{
+        font-size: 20px;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 0px 15px;
+}
+
+.header__logo{
+    font-family: 'Fredoka One';
+    text-align: center;
+}
+
+.header__logo, .content__title{
+    cursor: default;
+}
+.content__col{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.content__item{
+    margin-bottom: 10px;
+}
+.content__title{
+    text-align: center;
+}
+
+.content__form{
+    text-align: center;
+}
+.form-group{
+    margin-bottom: 25px;
+}
+.form__label{
+    margin-bottom: 5px;
+}
+.form__field > input, .form__field > textarea{
+    width: 75%;
+    font-size: 20px;
+}
+@media (max-width:426px){
+    .form__field > input, .form__field > textarea{
+        width: 100%;
+    }
+}
+.form__field{
+    margin-bottom: 5px;
+}
+.form__error{
+    color: rgb(255, 255, 255);
+}
+.form__button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background: linear-gradient(to right top, #aceb7a, #6fd393);
+    font-size: 20px;
+    padding: 8px 16px;
+    color: rgb(0, 0, 0);
+}
+.form__button:hover{
+    background: linear-gradient(to right top, #6fd393, #aceb7a);
+}
+
 label {
     position:relative;  
     cursor:pointer;
