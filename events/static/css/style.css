@@ -6,19 +6,27 @@
     font-family: 'Fredoka One';
     src: url('../fonts/FredokaOne-Regular/FredokaOne-Regular.ttf');
 }
+
 body{
-    padding-top: 15px;
+    margin: 0;
     font-family: 'Gardens CM';
     font-size: 30px;
     min-height: 100vh;
-    background: linear-gradient(to right top, #6fd393, #aceb7a);
-    
+    background: linear-gradient(to right top, #50db83dc, #a9f769d5);
+}
+
+@media (max-width:1600px){
+    body{
+        font-size: 22px;
+    }
 }
 @media (max-width:426px){
     body{
         font-size: 20px;
     }
 }
+
+
 
 .container {
     max-width: 1200px;
@@ -29,6 +37,14 @@ body{
 .header__logo{
     font-family: 'Fredoka One';
     text-align: center;
+    padding-top: 15px;
+}
+.header__logo a{
+    color: #000;
+    text-decoration: none;
+}
+.header__logo h1{
+    display: inline-block;
 }
 
 .header__logo, .content__title{
@@ -42,6 +58,7 @@ body{
 
 .content__item{
     margin-bottom: 10px;
+    text-align: center;
 }
 .content__title{
     text-align: center;
@@ -50,14 +67,14 @@ body{
 .content__form{
     text-align: center;
 }
-.form-group{
+.form__group{
     margin-bottom: 25px;
 }
 .form__label{
     margin-bottom: 5px;
 }
 .form__field > input, .form__field > textarea{
-    width: 75%;
+    width: 350px;
     font-size: 20px;
 }
 @media (max-width:426px){
@@ -65,6 +82,7 @@ body{
         width: 100%;
     }
 }
+
 .form__field{
     margin-bottom: 5px;
 }
@@ -81,9 +99,34 @@ body{
     font-size: 20px;
     padding: 8px 16px;
     color: rgb(0, 0, 0);
+    cursor: pointer;
+    margin-bottom: 15px;
 }
+
+.form__button[type='submit']{
+    margin-bottom: 35px;
+}
+
 .form__button:hover{
     background: linear-gradient(to right top, #6fd393, #aceb7a);
+}
+.form__button[disabled]{
+    opacity: 0.5;
+    cursor: default;
+    background: linear-gradient(to right top, #aceb7a, #6fd393);
+}
+
+.form__dates {
+    margin-bottom: 15px;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.form__buttons{
+    margin-bottom: 20px;
 }
 
 label {
@@ -91,13 +134,12 @@ label {
     cursor:pointer;
 }
 
-span.day{
+span.form__day{
     margin-bottom: 4px;
 }
 
 label [type="checkbox"] {
     display:none;
-    border: 1px solid #000;
 }
 
 [type="checkbox"] + span {
@@ -106,22 +148,86 @@ label [type="checkbox"] {
     padding: 15px;
     width: 25px;
     text-align: center;
-    border: 0.5px solid rgb(185, 185, 185);
+    background: #e9f0ebd2;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border: 0.5px solid rgb(43, 43, 43);
     border-radius: 5px;
     transition: 0.1s;
 }
 
 :checked + span {
-    background: rgb(58, 158, 87);
-    border: 0.5px solid rgb(161, 161, 161);
+    background: rgb(46, 158, 77);
+    box-shadow: none;
+    border: 0.5px solid rgb(184, 184, 184);
     color: rgb(255, 255, 255);
-    display:inline-block;    
+    display: inline-block;    
 }
 
-.unselectable {
-    -moz-user-select: -moz-none;
-    -o-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
+.modal {
+    display: block;
+    
+    width: 30vw;
+    max-width: 100%;
+    
+    min-height: 60vh;
+    max-height: 100%;
+    
+    position: fixed;
+    
+    z-index: 100;
+    
+    left: 50%;
+    top: 50%;
+    
+    transform: translate(-50%, -50%);
+    
+    background: white;
+    box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+}
+
+@media (max-width:769px){
+    .modal{
+        width: 90vw;
+        height: 90vh;
+    }
+
+}
+.closed {
+    display: none;
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    
+    background: rgba(0, 0, 0, 0.6);
+}
+.modal-guts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+.modal .close-button {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 20px;
+    
+    border: 0;
+    background: black;
+    color: white;
+    padding: 5px 10px;
+    font-size: 1.3rem;
+}
+.modal-calendar{
+    max-width: 100%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
 }

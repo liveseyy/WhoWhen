@@ -6,66 +6,129 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{{ event.title }}</h2>
+    <div class="content__item">
+        <div class="content__title">
+          <h2>{{ event.title }}</h2>
+        </div>
+      </div>
 
     {% if event.description %}
-        <p>{{ event.description }}</p>
-    {% endif %}
-
-    <p>{{ event.date_start }} - {{ event.date_end }}</p>
-
-    {% if event.members.all %}
-        {% with members_count=event.members.count %}
-            <div> Идут({{ members_count }}): 
-            {% for member in event.members.all %}
-                <span>{{ member.name }},</s>
-            {% endfor %}
+        <div class="content__item">
+            <div class="content__description">
+              <p>{{ event.description }}</p>
             </div>
-        {% endwith %}
-        <img src="data:image/png;base64,{{ event_calendar|safe }}" alt="Календарь">
-        <p>Можно идти:</p>
-            {% for date in days_when_lot_ready %}
-                {% for day, members in date.items %}
-                    <p>
-                        {{ day|date:'d M Y' }} ({{ members|length }}):
-
-                        {% for member in members %}
-                            <span>{{ member }}, </span>
-                        {% endfor %}
-                    </p>
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-        <p>Пока никто не отметился</p>
+          </div>
     {% endif %}
 
+    <div class="content__item">
+        <div class="content__description">
+          <p>С {{ event.date_start }} до {{ event.date_end }}</p>
+        </div>
+    </div>
 
-    <form method="POST">
-        {{ member_form.as_p }}
+    <hr color="black" width="75%" style="margin-bottom: 25px;">
 
-        <div class="dates unselectable">
-            {% for year, months_with_days in dates_between.items %}
-                <h4>{{ year }}</h4>
-                    {% for month, days in months_with_days.items %}
-                        <h5>{{ month }}</h5>
-                            {% for day in days %}
-                                <label>
-                                    <input type="checkbox" name="dates" id="{{ year }}-{{ month }}-{{ day }}"
-                                        value="{{ year }}.{{ month }}.{{ day }}">
-                                    <span class='day'>{{ day }}</span>
-                                </label>
-                            {% endfor %}
+    <div class="content__item">
+        {% if event.members.all %}
+            {% with members_count=event.members.count %}
+                <div> Идут({{ members_count }}): 
+                {% for member in event.members.all %}
+                    {% if forloop.last %}
+                        <span>{{ member.name }}</span>
+                    {% else %}
+                        <span>{{ member.name }},</span>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            {% endwith %}
+
+            <button class="form__button" id="open-button">Открыть календарь</button>
+
+            {% if event.members.count > 1 %}
+                <p>Можно идти:</p>
+                    {% for date in days_when_lot_ready %}
+                        {% for day, members in date.items %}
+                            <p>
+                                {{ day|date:'d M Y' }} ({{ members|length }}):
+
+                                {% for member in members %}
+                                    {% if forloop.last %}
+                                        <span>{{ member }}</span>
+                                    {% else %}
+                                        <span>{{ member }},</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
                     {% endfor %}
-            {% endfor %}
-        </div>
+            {% endif %}
 
-        {% csrf_token %}
-        <div>
-            <button type="button" id="btnSelectAll" onclick="selectAll()">Выделить все</button>
-            <button type="button" id="btnResetAll" onclick="resetAll()">Сбросить</button>
-        </div>
-        <button type="submit">Отправить</button>
-    </form>
+        {% else %}
+            <p>Пока никто не отметился</p>
+            <button class="form__button" hidden id="open-button"></button>
+        {% endif %}
+    </div>
+
+    <hr color="black" width="75%">
+
+    <div class="content__item">
+        <form method="POST" class="content__form">
+            {% for field in member_form %}
+                <div class="form__group">
+                    <div class="form__label">
+                        {{ field.label_tag }}
+                    </div>
+                    <div class="form__field">
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="form__error">
+                            {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="form__dates">
+                {% for year, months_with_days in dates_between.items %}
+                    <div class="form__year">
+                        <h3>{{ year }}</h3>
+                            {% for month, days in months_with_days.items %}
+                                <div class="form__month">
+                                <h4>{{ month }}</h4>
+                                    {% for day in days %}
+                                        <label>
+                                            <input type="checkbox" name="dates" id="{{ year }}-{{ month }}-{{ day }}"
+                                                value="{{ year }}.{{ month }}.{{ day }}">
+                                            <span class='form__day'>{{ day }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% csrf_token %}
+
+            <div class="form__buttons">
+                <button class="form__button" type="button" id="btnSelectAll" onclick="selectAll()">Выделить все</button>
+                <button class="form__button" type="button" id="btnResetAll" onclick="resetAll()">Сбросить</button>
+            </div>
+            <button class="form__button" type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <div class="modal-overlay closed" id="modal-overlay"></div>
+
+    <div class="modal closed" id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog">
+      <button class="close-button" id="close-button" title="Закрыть модальное окно">X</button>
+      <div class="modal-guts" role="document">
+        <img src="data:image/png;base64,{{ event_calendar|safe }}" alt="Календарь" class="modal-calendar">
+      </div>
+    </div>
 
 {% endblock %}
 
@@ -107,9 +170,23 @@
         let checkboxes = document.querySelectorAll('input[type=checkbox]');
         let labels = document.querySelectorAll('label');
         let buttonSend = document.querySelector('button[type="submit"]');
-        let btnSelectAll = document.querySelector('#btnSelectAll');
-        let btnResetAll = document.querySelector('#btnResetAll');
-        
+
+        let modal = document.querySelector("#modal");
+        let modalOverlay = document.querySelector("#modal-overlay");
+        let closeButton = document.querySelector("#close-button");
+        let openButton = document.querySelector("#open-button");
+
+        closeButton.addEventListener("click", function() {
+            modal.classList.toggle("closed");
+            modalOverlay.classList.toggle("closed");
+        });
+
+        openButton.addEventListener("click", function() {
+            modal.classList.toggle("closed");
+            modalOverlay.classList.toggle("closed");
+        });
+
+
         checkActiveCheckboxes();
 
         checkboxes.forEach(checkbox => {

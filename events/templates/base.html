@@ -8,15 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <main>
-        <div class="header">
-            <div class="container">
-                <div class="header__logo">
+    <header>
+        <div class="container">
+            <div class="header__logo">
+                <a href="{% url 'event_create' %}">
                     <h1>Who<br>When<br>?</h1>
-                </div>
+                </a>
             </div>
         </div>
+    </header>
 
+    <main>
         <div class="content">
             <div class="container">
                 <div class="content__col">

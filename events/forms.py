@@ -6,9 +6,9 @@ from datetime import timedelta
 
 
 class EventForm(forms.ModelForm):
-    title = forms.CharField(label='Название', label_suffix='', widget=forms.TextInput(attrs={'autocomplete':"off"}),
+    title = forms.CharField(label='Название', label_suffix='', widget=forms.TextInput(attrs={'autocomplete': "off"}),
                             max_length=200)
-    description = forms.CharField(label='Описание', widget=forms.Textarea(attrs={'cols': 35, 'rows': 3, 'autocomplete':"off"},),
+    description = forms.CharField(label='Описание', widget=forms.Textarea(attrs={'cols': 35, 'rows': 3, 'autocomplete': "off"},),
                                   required=False, label_suffix='', max_length=255)
     date_start = forms.DateField(label='Дата начала',
                                  widget=forms.TextInput(

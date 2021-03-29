@@ -15,7 +15,7 @@
     <div class="content__item">
       <form method="post" class="content__form">  
         {% for field in form %}
-          <div class="form-group">
+          <div class="form__group">
             <div class="form__label">
               {{ field.label_tag }}
             </div>
@@ -32,7 +32,7 @@
           </div>
         {% endfor %}
         {% csrf_token %}
-        <input type="submit" value="Создать" class="form__button">
+        <button type="submit" class="form__button">Создать</button>
       </form>
     </div>
 
