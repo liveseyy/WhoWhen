@@ -15,7 +15,7 @@
     {% if event.description %}
         <div class="content__item">
             <div class="content__description">
-              <p>{{ event.description }}</p>
+              <p>{{ event.description|linebreaksbr }}</p>
             </div>
           </div>
     {% endif %}
@@ -42,9 +42,8 @@
                 </div>
             {% endwith %}
 
-            <button class="form__button" id="open-button">Открыть календарь</button>
-
             {% if event.members.count > 1 %}
+            <button class="form__button" id="open-button">Открыть календарь</button>
                 <p>Можно идти:</p>
                     {% for date in days_when_lot_ready %}
                         {% for day, members in date.items %}
@@ -53,9 +52,9 @@
 
                                 {% for member in members %}
                                     {% if forloop.last %}
-                                        <span>{{ member }}</span>
+                                        <span class="highlight">{{ member }}</span>
                                     {% else %}
-                                        <span>{{ member }},</span>
+                                        <span class="highlight">{{ member }}</span>,
                                     {% endif %}
                                 {% endfor %}
                             </p>
@@ -99,10 +98,10 @@
                                 <div class="form__month">
                                 <h4>{{ month }}</h4>
                                     {% for day in days %}
-                                        <label>
+                                        <label id="label_day">
                                             <input type="checkbox" name="dates" id="{{ year }}-{{ month }}-{{ day }}"
                                                 value="{{ year }}.{{ month }}.{{ day }}">
-                                            <span class='form__day'>{{ day }}</span>
+                                            <span class='form__day' id="{{ month }}-{{ day }}">{{ day }}</span>
                                         </label>
                                     {% endfor %}
                                 </div>
@@ -160,15 +159,23 @@
             };
             
         };
+        
         function selectOrUnselectCheckboxes(e) {
             if (e.target.tagName === 'SPAN' && e.buttons) {
                 e.target.previousElementSibling.checked = !e.target.previousElementSibling.checked;
                 checkActiveCheckboxes();
             }
         };
+        function selectOrUnselectCheckboxesTouch(e) {
+            if (e.target.tagName === 'SPAN') {
+                console.log('here');
+                checkActiveCheckboxes();
+            }
+        };
+        let lastTouchedElem
 
         let checkboxes = document.querySelectorAll('input[type=checkbox]');
-        let labels = document.querySelectorAll('label');
+        let labels = document.querySelectorAll('#label_day');
         let buttonSend = document.querySelector('button[type="submit"]');
 
         let modal = document.querySelector("#modal");
@@ -193,10 +200,12 @@
             checkbox.addEventListener('change', checkActiveCheckboxes);
         });
         labels.forEach(label => {
-            label.addEventListener('pointerover', selectOrUnselectCheckboxes);
+            label.addEventListener('mouseover', selectOrUnselectCheckboxes);
             label.addEventListener('mousedown', selectOrUnselectCheckbox);
             label.addEventListener('click', (e) => {e.preventDefault();});
         });
+
+        document.addEventListener('touchmove', selectOrUnselectCheckboxesTouch);
         
     </script>
 {% endblock %}

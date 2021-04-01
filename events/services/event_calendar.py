@@ -24,8 +24,11 @@ def get_event_calendar(event: Event):
     count_members_on_date = []
     for date in dates_between_event:
         count_members_on_date.append(member_dates.count(date))
-
-    fig, ax = plt.subplots(figsize=(5, 15))
+    if len(dates_between_event) < 50:
+        fig, ax = plt.subplots(figsize=(10, 10))
+    else:
+        height_graph = 10 + len(dates_between_event)//11
+        fig, ax = plt.subplots(figsize=(10, height_graph))
     calendar_heatmap(ax, dates_between_event, count_members_on_date)
 
     buffer = BytesIO()
