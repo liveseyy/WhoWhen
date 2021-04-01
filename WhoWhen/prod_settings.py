@@ -10,7 +10,7 @@ SECRET_KEY = 'bobhh4214@$(qa2%3533R$^#gi@7ar7#5FDSFSfsaf1h15^@54cy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "livesey.pythonanywhere.com"]
 
 
 # Database
@@ -19,9 +19,9 @@ ALLOWED_HOSTS = ["127.0.0.1"]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': 'django_db',
+        'USER': 'livesey',
+        'PASSWORD': 'MpyivmS1993',
     }
 }
 
