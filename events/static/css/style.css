@@ -244,3 +244,10 @@ label [type="checkbox"] {
 .highlight{
     color: #fff;
 }
+
+.content__sep{
+    background-color: black;
+    height: 2px;
+    width: 75%;
+    margin-bottom: 25px;
+}

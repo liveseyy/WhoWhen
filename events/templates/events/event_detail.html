@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <hr color="black" width="75%" style="margin-bottom: 25px;">
+    <div class="content__sep"></div>
 
     <div class="content__item">
         {% if event.members.all %}
@@ -68,7 +68,7 @@
         {% endif %}
     </div>
 
-    <hr color="black" width="75%">
+    <div class="content__sep"></div>
 
     <div class="content__item">
         <form method="POST" class="content__form">
@@ -98,7 +98,7 @@
                                 <div class="form__month">
                                 <h4>{{ month }}</h4>
                                     {% for day in days %}
-                                        <label id="label_day">
+                                        <label class="label_day">
                                             <input type="checkbox" name="dates" id="{{ year }}-{{ month }}-{{ day }}"
                                                 value="{{ year }}.{{ month }}.{{ day }}">
                                             <span class='form__day' id="{{ month }}-{{ day }}">{{ day }}</span>
@@ -122,7 +122,7 @@
 
     <div class="modal-overlay closed" id="modal-overlay"></div>
 
-    <div class="modal closed" id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog">
+    <div class="modal closed" id="modal" aria-hidden="true" role="dialog">
       <button class="close-button" id="close-button" title="Закрыть модальное окно">X</button>
       <div class="modal-guts" role="document">
         <img src="data:image/png;base64,{{ event_calendar|safe }}" alt="Календарь" class="modal-calendar">
@@ -175,7 +175,7 @@
         let lastTouchedElem
 
         let checkboxes = document.querySelectorAll('input[type=checkbox]');
-        let labels = document.querySelectorAll('#label_day');
+        let labels = document.querySelectorAll('.label_day');
         let buttonSend = document.querySelector('button[type="submit"]');
 
         let modal = document.querySelector("#modal");
