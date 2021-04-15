@@ -4,7 +4,7 @@ from django.utils.crypto import get_random_string
 
 
 class Event(models.Model):
-    """The nearest event that people are going to"""
+    """The event that people are going to"""
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=255, blank=True)
     date_start = models.DateField()
@@ -16,7 +16,8 @@ class Event(models.Model):
         return f'{self.title}({self.date_start} до {self.date_end})'
 
     def save(self, *args, **kwargs):
-        self.slug = get_random_string(length=15)
+        if not self.slug:
+            self.slug = get_random_string(length=15)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

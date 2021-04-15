@@ -25,7 +25,7 @@ class EventDetailView(DetailView):
             member = form.save(commit=False)
             member.event = event
             member.save()
-            if data['dates']:
+            if data.get('dates'):
                 for date_raw in data.getlist('dates'):
                     date_raw = date_raw.split('.')
                     date = datetime.date(year=int(date_raw[0]), month=str_to_int_months[date_raw[1]], day=int(date_raw[2]))
