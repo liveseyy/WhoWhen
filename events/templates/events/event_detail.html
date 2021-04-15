@@ -64,8 +64,9 @@
 
         {% else %}
             <p>Пока никто не отметился</p>
-            <button class="form__button" hidden id="open-button"></button>
         {% endif %}
+
+        <button class="form__button" hidden id="open-button"></button>
     </div>
 
     <div class="content__sep"></div>
@@ -166,13 +167,6 @@
                 checkActiveCheckboxes();
             }
         };
-        function selectOrUnselectCheckboxesTouch(e) {
-            if (e.target.tagName === 'SPAN') {
-                console.log('here');
-                checkActiveCheckboxes();
-            }
-        };
-        let lastTouchedElem
 
         let checkboxes = document.querySelectorAll('input[type=checkbox]');
         let labels = document.querySelectorAll('.label_day');
@@ -205,7 +199,5 @@
             label.addEventListener('click', (e) => {e.preventDefault();});
         });
 
-        document.addEventListener('touchmove', selectOrUnselectCheckboxesTouch);
-        
     </script>
 {% endblock %}
