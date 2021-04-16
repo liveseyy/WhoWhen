@@ -1,7 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from events.models import Event
-import json
 
 
 class TestViews(TestCase):
@@ -29,7 +28,6 @@ class TestViews(TestCase):
             'date_start': '14.04.2021',
             'date_end': '15.04.2021'
         })
-        # Объект не создается, fix
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Event.objects.count(), 2)

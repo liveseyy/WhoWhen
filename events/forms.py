@@ -21,16 +21,16 @@ class EventForm(forms.ModelForm):
                                           'autocomplete': "off"}),
                                input_formats=['%d.%m.%Y'], label_suffix='')
 
-    def clean_date_end(self):
-        date_end = self.cleaned_data.get('date_end')
-        date_start = self.cleaned_data.get('date_start')
-        try:
+    def clean(self):
+        data = super(EventForm, self).clean()
+        date_end = data.get('date_end')
+        date_start = data.get('date_start')
+        if date_end and date_start:
             if date_end < date_start:
                 raise ValidationError("Дата окончания должна быть после даты начала.")
-        except TypeError:
-            pass
-        return date_end
-    
+        return self.cleaned_data
+
+
     class Meta:
         model = Event
         fields = ['title', 'description', 'date_start', 'date_end']

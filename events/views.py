@@ -38,8 +38,8 @@ class EventDetailView(DetailView):
         context['member_form'] = MemberForm()
 
         event = context['event']
-        dates_between_event_json = get_days_between_dates_json(event)
-        context['dates_between'] = dates_between_event_json
+
+        context['dates_between'] = get_days_between_dates_json(event)
 
         context['event_calendar'] = get_event_calendar(event)
 
