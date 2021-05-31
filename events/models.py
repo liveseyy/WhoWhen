@@ -34,7 +34,7 @@ class Member(models.Model):
 
 
 class MemberDates(models.Model):
-    """Dates when member can go"""
+    """Dates when member can go on event"""
     member = models.ForeignKey(Member, related_name='dates', on_delete=models.CASCADE)
     date = models.DateField()
 
