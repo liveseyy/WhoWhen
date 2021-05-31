@@ -30,7 +30,7 @@ class Member(models.Model):
     event = models.ForeignKey(Event, related_name="members", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'"{self.name}" go on {self.event.title}'
+        return f'"{self.name}" go on "{self.event.title}"'
 
 
 class MemberDates(models.Model):
