@@ -30,7 +30,6 @@ class EventForm(forms.ModelForm):
                 raise ValidationError("Дата окончания должна быть после даты начала.")
         return self.cleaned_data
 
-
     class Meta:
         model = Event
         fields = ['title', 'description', 'date_start', 'date_end']
